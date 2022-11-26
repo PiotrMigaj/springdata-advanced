@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.migibud.springdataadvanced.passenger.Passenger;
 import pl.migibud.springdataadvanced.passenger.PassengerRepository;
 import pl.migibud.springdataadvanced.ticket.Ticket;
 import pl.migibud.springdataadvanced.ticket.TicketRepository;
@@ -14,24 +13,20 @@ import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
-public class ReservationService {
+public class ReservationServiceCopy {
 
     private final TicketRepository ticketRepository;
     private final PassengerRepository passengerRepository;
     private final BigDecimal TICKET_PRICE = BigDecimal.valueOf(150);
-    private final ReservationServiceCopy reservationServiceCopy;
+
 
     @Transactional
-    public void reserveTicket() {
-        Passenger passenger = new Passenger();
-        passenger.setName("Adam");
-        passenger.setAccountBalance(BigDecimal.valueOf(100));
-        passengerRepository.save(passenger);
-        try {
-            reservationServiceCopy.reserveTicket2();
-        } catch (Exception exception){
-            System.out.println(exception.getMessage());
-        }
+    public void reserveTicket2(){
+
+        Ticket ticket = new Ticket();
+        ticket.setName("To Canada");
+        ticketRepository.save(ticket);
+        throw new RuntimeException();
     }
 
 //    private boolean validateCreditLimit(BigDecimal accountBalance) {

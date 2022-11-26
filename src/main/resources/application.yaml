@@ -1,7 +1,7 @@
 spring:
   datasource:
     username: root
-    password: migi987
+    password: Stefan0987
     url: jdbc:mysql://localhost/springdata_advanced_db?serverTimezone=Europe/Warsaw&createDatabaseIfNotExist=true
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
