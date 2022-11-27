@@ -1,22 +1,19 @@
-package pl.migibud.isolations.dirtyread;
+package pl.migibud.isolations.nonrepetableread;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.sql.SQLException;
-
-@Component("RunDirtyRead")
+@Component("RunMeNonRepeatableRead")
 @RequiredArgsConstructor
-class RunMeDirty {
+class RunMe {
 
     private final TicketService ticketService;
 
-    @EventListener(ApplicationReadyEvent.class)
+//    @EventListener(ApplicationReadyEvent.class)
     public void get() throws InterruptedException {
         ticketService.update();
         ticketService.show();
-
     }
 }

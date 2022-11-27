@@ -1,31 +1,34 @@
 package pl.migibud.isolations.dirtyread;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
-
+@Slf4j
 @Service("TicketServiceDirtyRead")
-@Transactional(rollbackFor = SQLException.class)
 @RequiredArgsConstructor
 class TicketService {
 
     private final TicketRepository ticketRepository;
 
     @Async
-    public void update() throws SQLException, InterruptedException {
+    @Transactional
+    public void update() throws InterruptedException {
         Ticket ticketToNorway = new Ticket();
         ticketToNorway.setTicketName("to Norway");
         ticketRepository.save(ticketToNorway);
         Thread.sleep(3000);
-        throw new SQLException("hehe");
+        throw new RuntimeException("hehe");
     }
 
     @Async
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void show() throws InterruptedException{
-        System.out.println(ticketRepository.findAll());
+        Thread.sleep(1000);
+        log.info("Ticked read from db: {}",ticketRepository.findAll());
     }
 
 }
